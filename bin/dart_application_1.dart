@@ -17,9 +17,7 @@ void main() {
       Subject('История'),
       Subject('Литература'),
     ],
-  );
-
-  // Заполнение случайными оценками для демонстрации
+  );    
   journal.generateRandomGrades();
 
   while (true) {
@@ -114,7 +112,6 @@ class Journal {
     grades.clear();
     for (var student in students) {
       for (var subject in subjects) {
-        // Генерируем оценки от 2 до 5 с вероятностью: 2 - 10%, 3 - 30%, 4 - 40%, 5 - 20%
         int r = random.nextInt(100);
         int grade;
         if (r < 10) {
@@ -131,7 +128,6 @@ class Journal {
     }
   }
 
-  // Получить оценку студента по предмету
   int? getGrade(Student student, Subject subject) {
     try {
       return grades
@@ -142,12 +138,10 @@ class Journal {
     }
   }
 
-  // Получить все оценки студента
   List<Grade> getStudentGrades(Student student) {
     return grades.where((g) => g.student == student).toList();
   }
 
-  // Получить средний балл студента
   double getStudentAverage(Student student) {
     var studentGrades = getStudentGrades(student);
     if (studentGrades.isEmpty) return 0;
@@ -155,7 +149,6 @@ class Journal {
         studentGrades.length;
   }
 
-  // Получить средний балл по предмету
   double getSubjectAverage(Subject subject) {
     var subjectGrades = grades.where((g) => g.subject == subject);
     if (subjectGrades.isEmpty) return 0;
@@ -163,13 +156,11 @@ class Journal {
         subjectGrades.length;
   }
 
-  // Получить общий средний балл по группе
   double getOverallAverage() {
     if (grades.isEmpty) return 0;
     return grades.map((g) => g.value).reduce((a, b) => a + b) / grades.length;
   }
 
-  // Определить категорию студента по успеваемости
   String getStudentCategory(Student student) {
     double avg = getStudentAverage(student);
     if (avg == 5.0) return 'Отличник';
@@ -177,11 +168,10 @@ class Journal {
     return 'Остальные';
   }
 
-  // Пункт 1: Сводная таблица
   void printSummaryTable() {
     print('\n--- СВОДНАЯ ТАБЛИЦА УСПЕВАЕМОСТИ ---');
     
-    // Заголовок с предметами
+    
     stdout.write('Студент'.padRight(20));
     for (var subject in subjects) {
       stdout.write(subject.name.padLeft(10));
@@ -189,7 +179,6 @@ class Journal {
     stdout.write('Ср.балл'.padLeft(10));
     print('');
 
-    // Данные по студентам
     for (var student in students) {
       stdout.write(student.fullName.padRight(20));
       for (var subject in subjects) {
@@ -201,7 +190,6 @@ class Journal {
       print('');
     }
 
-    // Последняя строка со средними по предметам
     stdout.write('Ср.балл'.padRight(20));
     for (var subject in subjects) {
       double avg = getSubjectAverage(subject);
@@ -210,7 +198,6 @@ class Journal {
     print('');
   }
 
-  // Пункт 2: Поиск по фамилии/имени
   void searchStudent() {
     print('\n--- ПОИСК СТУДЕНТА ---');
     stdout.write('Введите фамилию или имя студента: ');
@@ -241,14 +228,12 @@ class Journal {
     }
   }
 
-  // Пункт 3: Список уникальных оценок
   void printUniqueGrades() {
     print('\n--- УНИКАЛЬНЫЕ ОЦЕНКИ ---');
     var uniqueGrades = grades.map((g) => g.value).toSet().toList()..sort();
     print('Оценки, встречающиеся в журнале: ${uniqueGrades.join(', ')}');
   }
 
-  // Пункт 4: Максимальные и минимальные оценки по предметам
   void printMinMaxGradesBySubject() {
     print('\n--- МАКСИМАЛЬНЫЕ И МИНИМАЛЬНЫЕ ОЦЕНКИ ПО ПРЕДМЕТАМ ---');
     
@@ -275,7 +260,6 @@ class Journal {
     }
   }
 
-  // Пункт 5: Студенты с ровно одной двойкой
   void printStudentsWithExactlyOneF() {
     print('\n--- СТУДЕНТЫ С РОВНО ОДНОЙ ДВОЙКОЙ ---');
     
@@ -295,7 +279,6 @@ class Journal {
     }
   }
 
-  // Пункт 6: Предметы с баллом выше общего среднего
   void printSubjectsAboveOverallAverage() {
     print('\n--- ПРЕДМЕТЫ С БАЛЛОМ ВЫШЕ ОБЩЕГО СРЕДНЕГО ---');
     
@@ -317,7 +300,6 @@ class Journal {
     }
   }
 
-  // Пункт 7: Количество студентов по категориям
   void printStudentCategories() {
     print('\n--- КОЛИЧЕСТВО СТУДЕНТОВ ПО КАТЕГОРИЯМ ---');
     
