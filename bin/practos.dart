@@ -1,115 +1,88 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:characters/characters.dart';
 
+
+
 enum Mood {
-  excited('😎', 'взволнованный', 9),
-  happy('😊', 'счастливый', 8),
-  sad('😢', 'грустный', 3),
-  angry('😠', 'злой', 4),
-  calm('😌', 'спокойный', 7),
-  love('😍', 'влюбленный', 10);
+  excited("\u{1F60E}", "взволнованный", 9),
+  happy("\u{1F600}", "счастливый", 8),
+  relaxed("\u{1F60A}", "расслабленный", 7),
+  tired("\u{1F634}", "сонный", 3),
+  angry("\u{1F621}", "злой", 2),
+  sad("\u{1F622}", "грустный", 4),
+  inLove("\u{1F970}", "влюбленный", 10),
+  playful("\u{1F923}", "игривый", 8),
+  scared("\u{1F628}", "испуганный", 2),
+  proud("\u{1F60E}", "гордый", 9);
+
+
 
   final String emoji;
   final String description;
   final int energy;
 
+
+
   const Mood(this.emoji, this.description, this.energy);
 }
 
 void main() {
-  // Запрос имени пользователя
-  stdout.write('Введите ваше имя: ');
-  String name = stdin.readLineSync() ?? 'Гость';
+  print("Введите ваше имя: ");
+  String? name = stdin.readLineSync(encoding: utf8);
+  name = name?.trim() ?? "Гость";
 
-  print('\nГенерируем случайное настроение...\n');
+  print("\nГенерируем случайное настроение...\n");
 
-  // Генерация случайного настроения
-  final randomMood = Mood.values[DateTime.now().millisecondsSinceEpoch % Mood.values.length];
+  final random = Random();
+  final moods = Mood.values;
+  final selectedMood = moods[random.nextInt(moods.length)];
 
-  // Вывод сообщения с настроением
-  print('Привет, $name! Твое настроение: ${randomMood.emoji} ${randomMood.description} (энергия: ${randomMood.energy}/10)');
+  print("Привет, $name! Твое настроение: ${selectedMood.emoji} ${selectedMood.description} (энергия: ${selectedMood.energy}/10)");
+  
+  final unicodeValue = selectedMood.emoji.runes.first.toRadixString(16).toUpperCase();
+  print("Юникод вашего эмодзи: U+$unicodeValue");
 
-  // Вывод юникода эмодзи
-  print('Юникод вашего эмодзи: ${getUnicodeString(randomMood.emoji)}');
-
-  // Запрос на анализ сложных эмодзи
-  stdout.write('\nХотите просмотреть сложные эмодзи? (/нет): ');
-  String answer = stdin.readLineSync()?.toLowerCase().trim() ?? '';
-
-  // Проверка на положительный ответ
-  if (answer == 'да' || answer == 'д' || answer == 'yes' || answer == 'y' || answer == '+') {
-    stdout.write('\nВведите комбинацию эмодзи: ');
-    String emojiString = stdin.readLineSync() ?? '';
-
-    if (emojiString.isNotEmpty) {
-      analyzeComplexEmoji(emojiString);
-    } else {
-      print('Вы не ввели эмодзи.');
+  print("\nХотите просмотреть сложные эмодзи?");
+  print("0 - Да");
+  print("1 - Нет");
+  print("Ваш выбор: ");
+  
+  String? choice = stdin.readLineSync(encoding: utf8);
+  
+  if (choice == "0") {
+    print("\nВведите комбинацию эмодзи: ");
+    String? complexEmoji = stdin.readLineSync(encoding: utf8);
+    
+    if (complexEmoji != null && complexEmoji.isNotEmpty) {
+      analyzeComplexEmoji(complexEmoji);
     }
   } else {
-    print('\nХорошо, пропускаем анализ сложных эмодзи.');
+    print("\nХорошо, в следующий раз!");
   }
-
-  print('\nСпасибо, приходите снова!');
+  
+  print("\nСпасибо, приходите снова!");
 }
 
-String getUnicodeString(String emoji) {
-  final runes = emoji.runes.toList();
-  if (runes.isEmpty) return 'U+0000';
+void analyzeComplexEmoji(String emojiString) {
+  print('\nАнализ строки "$emojiString":');
+  print('- 16-битных единиц: ${emojiString.length}');
+  print('- Кодовых точек: ${emojiString.runes.length}');
+  print('- Реальных символов: ${emojiString.characters.length}');
   
-  final hexValue = runes[0].toRadixString(16).toUpperCase();
-  return 'U+${hexValue.padLeft(4, '0')}';
-}
-
-void analyzeComplexEmoji(String input) {
-  print('\nАнализ строки "$input":');
-
-  // 1. Количество 16-битных единиц (обычная длина строки в Dart)
-  final utf16Length = input.length;
-  print('- 16-битных единиц: $utf16Length');
-
-  // 2. Количество кодовых точек (руны)
-  final codePoints = input.runes.length;
-  print('- Кодовых точек: $codePoints');
-
-  // 3. Количество реальных символов (графемных кластеров)
-  final realCharacters = input.characters.length;
-  print('- Реальных символов: $realCharacters');
-
-  // Демонстрация разницы
-  print('\nДемонстрация разницы:');
-  print('Обычная длина строки: $utf16Length');
-  print('Длина через руны: $codePoints');
-  print('Реальных символов (characters.length): $realCharacters');
-
-  // Подробный вывод юникода для каждого символа
-  print('\nПодробный вывод юникода:');
+  print("\nПодробный вывод юникода:");
   
-  int charIndex = 1;
-  for (final character in input.characters) {
-    print('\nСимвол $charIndex: $character');
-    
-    // Разбиваем графемный кластер на отдельные кодовые точки
-    final runes = character.runes.toList();
-    for (int i = 0; i < runes.length; i++) {
-      final rune = runes[i];
-      final hexValue = rune.toRadixString(16).toUpperCase().padLeft(4, '0');
-      final symbol = String.fromCharCode(rune);
-      
-      // Определяем тип символа
-      String type = '';
-      if (rune == 0x200D) type = ' → Zero Width Joiner (ZWJ)';
-      else if (rune >= 0x1F300 && rune <= 0x1F9FF) type = ' → Эмодзи';
-      else if (rune == 0xFE0F) type = ' → Variation Selector';
-      
-      print('  Кодовая точка ${i + 1}: $symbol → U+$hexValue$type');
+  int symbolIndex = 1;
+  for (var char in emojiString.characters) {
+    String unicodePoints = "";
+    int pointIndex = 0;
+    for (var rune in char.runes) {
+      if (pointIndex > 0) unicodePoints += " ";
+      unicodePoints += "U+${rune.toRadixString(16).toUpperCase()}";
+      pointIndex++;
     }
-    charIndex++;
+    print("Символ $symbolIndex: $char → $unicodePoints");
+    symbolIndex++;
   }
-  
-  // Дополнительное пояснение
-  print('\n📚 Пояснение:');
-  print('• Семья из 4 человек (👨‍👩‍👧‍👦) — это 1 реальный символ,');
-  print('  но состоит из 7 кодовых точек (4 эмодзи + 3 соединителя ZWJ)');
-  print('  и занимает 11 позиций в 16-битной строке.');
 }
