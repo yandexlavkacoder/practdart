@@ -1149,7 +1149,7 @@ import 'dart:io';
 // int rek(int n, int m){
 //   if(m==0){
 //     return 1;
-//   }
+//   } 
 //   return n* rek(n,m-1);
 // }
 
@@ -1179,102 +1179,173 @@ import 'dart:io';
 //строка - последовательность символов в Utf-16
 //что такое Unicode? отличие строки от руны? что такое characters? что такое перечисление?
 
-enum Status{
-  processing,
-  ready;
-}
+// enum Status{
+//   processing,
+//   ready;
+// }
 
-enum Day{
-  mon,
-  tue,
-  wed,
-  t,
-  fri,
-  sat,
-  su;
-}
-void main(){
-  statusShow(1);
-  statusShow1(Status.processing);
-  Day today = Day.wed;
-
-
-  switch (today){
-    case Day.mon:
-    print("5пар");
-    case Day.tue:
-    print("5 пар");
-    case Day.wed:
-    print("3 пар");
+// enum Day{
+//   mon,
+//   tue,
+//   wed,
+//   t,
+//   fri,
+//   sat,
+//   su;
+// }
+// void main(){
+//   statusShow(1);
+//   statusShow1(Status.processing);
+//   Day today = Day.wed;
 
 
-    default:
-    print("5 пар");
-  }
+//   switch (today){
+//     case Day.mon:
+//     print("5пар");
+//     case Day.tue:
+//     print("5 пар");
+//     case Day.wed:
+//     print("3 пар");
 
 
-  for(var i in Status.values){
-    print(i);
-    print(i.name);
-    print(i.index);
-  }
+//     default:
+//     print("5 пар");
+//   }
 
 
-  String s="ABC";
-  print(s);
-  print(s.runes);
-  print(s.runes.first.toRadixString(16));
+//   for(var i in Status.values){
+//     print(i);
+//     print(i.name);
+//     print(i.index);
+//   }
 
-  print(String.fromCharCode(65));
+
+//   String s="ABC";
+//   print(s);
+//   print(s.runes);
+//   print(s.runes.first.toRadixString(16));
+
+//   print(String.fromCharCode(65));
 
 
-  String smile= "😅";
-  print(smile);
-  print(smile.length);
+//   String smile= "😅";
+//   print(smile);
+//   print(smile.length);
 
-  String family="";
-  print(family);
-  print(family.length);
-  print(family.runes.last.toRadixString(16));
-  String f="\u{1f469}";
-  String f1="\u{1f467}";
-  print(f1);
-}
+//   String family="";
+//   print(family);
+//   print(family.length);
+//   print(family.runes.last.toRadixString(16));
+//   String f="\u{1f469}";
+//   String f1="\u{1f467}";
+//   print(f1);
+// }
 
-enum Role{
-  admin("admin", 1),
-  user("user", 3 ),
-  owner("product",2);
+// enum Role{
+//   admin("admin", 1),
+//   user("user", 3 ),
+//   owner("product",2);
 
-  final String login;
-  final int preiorety;
+//   final String login;
+//   final int preiorety;
 
-  const Role(this.login,this.preiorety);
-}
+//   const Role(this.login,this.preiorety);
+// }
 
-  enum Trass{
-    red,
-    yellow,
-    green;
-    bool get canGo=>this==Trass.green;
-  }
+//   enum Trass{
+//     red,
+//     yellow,
+//     green;
+//     bool get canGo=>this==Trass.green;
+//   }
 
-void statusShow(int status){
-  if(status == 1){
-    print("обработка заказа");
-      }else if(status ==2){
-        print("выдача");
-      }
+// void statusShow(int status){
+//   if(status == 1){
+//     print("обработка заказа");
+//       }else if(status ==2){
+//         print("выдача");
+//       }
 
-}
-void statusShow1(status){
-  if(status == Status.processing){
-    print("обработка заказа");
-      }else if(status == Status.ready){
-        print("выдача");
-      }
+// }
+// void statusShow1(status){
+//   if(status == Status.processing){
+//     print("обработка заказа");
+//       }else if(status == Status.ready){
+//         print("выдача");
+//       }
 
-}
+// }
 //руна - целое число, которое представляет кодовую точку
 // кодовая точка - это число или набор чисел для определния их стандарта юникода 
 //юникод - стандарт оперделния кодовой точки 
+
+
+
+
+
+
+//13.04.2026
+// парадигма процеурная - повторяющиеся шаги, которые выносятся в функцию
+// последовательная парадигма
+
+// class Person{//camelCase - верблюжий регистр (большой) 
+//   //поля - свойства у каждого объекта есть много атрибутов(полей) или один
+//   //за свойства отвечает объект
+//   String? name; //инициализация полей
+//   int? age;
+//   // Person(this.name,this.age); // инициализация и создание объектов класса в конструкторе. если они не определены, то конструктор без параметров
+//   // задача конструктора - задать значение полей и подготовить объект для дальнейшей работы
+//   void printInfo(){
+//     print("$name,$age");
+//   }
+//   Person(String name, int age): this.name=name, this.age=age; // инициализация полей может задавать динамическую логику
+// } // сам класс - описание у которого бможет быть несколько объектов(экземпляров классов). класс и объект не одно и тоже
+
+// class Point{ // создание именованного конструктора с координатой
+//   int x=0;
+//   int y=0;
+//   // Point(this.x,this.y);
+//   // Point.p():
+//   // x=0,
+//   // y=0;
+
+//   // Point.copy(Point other):
+//   // x=other.x,
+//   // y-other.y;
+
+//   // Point(int pX, int pY){
+//   //   pX=x;
+//   //   pY=y;
+//   // } // конструктор со значениями по умолчанию
+//   // Point({required this.x,required this.y}); // конструктор с параметрами который имеет имя
+//   // Point({this.x,[this.y=0]);
+//   // инициализаторы 
+// }
+
+// void main(){
+//   // Point p=Point(3, 4);
+//   // Point p1=Point.p();
+//   // print(p1.x);
+//   // print(p1.y);
+//   // Point p=Point(x: 4, y: 7);
+//   // print(p);
+
+//   Person pr=Person("артем",18) // объявление экземпляров
+//         ..name //каскадная нотация .. работает только тогда, когда есть переданные значения
+//         ..age
+//         ..printInfo;
+//   Person pr1=Person(null,null);
+//   Person pr2=pr1; //копирование объектов
+//   pr1.name="dadsadd";
+//   print(pr2.name); //копирование объектов с изменением
+//   print(pr.name);
+//   print(pr.age);
+//   pr.printInfo(); 
+//   pr1.printInfo(); 
+//   pr2.printInfo(); 
+// }
+
+
+
+
+
